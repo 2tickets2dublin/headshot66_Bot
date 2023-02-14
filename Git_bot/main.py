@@ -46,13 +46,13 @@ async def process_start_command(message: Message):
                          f'игры и список команд\n/cancel - выйти из игры\n'
                          f'/stat - посмотреть статистику\n\nДавай сыграем, говнюк?')
 
-# Этот хэндлер будет срабатывать на команду "/stat"
+# Этот хэндлер будет реагировать на команду "/stat"
 @dp.message(Command(commands=['stat']))
 async def process_stat_command(message: Message):
     await message.answer(f'Всего игр сыграно: {users[message.from_user.id]["total_games"]}\n'
                          f'Игр выиграно: {users[message.from_user.id]["wins"]}')
 
-# Этот хэндлер будет срабатывать на команду "/cancel"
+# Этот хэндлер будет реагировать на команду "/cancel"
 @dp.message(Command(commands=['cancel']))
 async def process_cancel_command(message: Message):
     if users[message.from_user.id]['in_game']:
@@ -61,7 +61,7 @@ async def process_cancel_command(message: Message):
     else:
         await message.answer('Сейчас игра остановлена вообще-то')
 
-# Этот хэндлер будет срабатывать на согласие пользователя сыграть в игру
+# Этот хэндлер будет реагировать на согласие пользователя сыграть в игру
 @dp.message(Text(text=['Да', 'Давай', 'Сыграем', 'Игра', 'Играть', 'Хочу играть', 'lf'], ignore_case=True))
 async def process_positive_answer(message: Message):
     if not users[message.from_user.id]['in_game']:
@@ -75,7 +75,7 @@ async def process_positive_answer(message: Message):
                              'реагировать только на числа от 1 до 100 '
                              'и команды /cancel и /stat')
 
-# Этот хэндлер будет срабатывать на отказ пользователя сыграть в игру
+# Этот хэндлер будет реагировать на отказ пользователя сыграть в игру
 @dp.message(Text(text=['Нет', 'Не', 'Не хочу', 'Не буду'], ignore_case=True))
 async def process_negative_answer(message: Message):
     if not users[message.from_user.id]['in_game']:
@@ -85,7 +85,7 @@ async def process_negative_answer(message: Message):
         await message.answer('Мы же сейчас с тобой играем.'
                              'Присылай, числа от 1 до 100')
 
-# Этот хэндлер будет срабатывать на отправку пользователем чисел от 1 до 100
+# Этот хэндлер будет реагировать на отправку пользователем чисел от 1 до 100
 @dp.message(lambda x: x.text and x.text.isdigit() and 1 <= int(x.text) <= 100)
 async def process_numbers_answer(message: Message):
     if users[message.from_user.id]['in_game']:
@@ -120,7 +120,7 @@ async def process_numbers_answer(message: Message):
     else:
         await message.answer('Мы еще не играем. Хотишь сыграть?')
 
-# Этот хэндлер будет срабатывать на остальные текстовые сообщения
+# Этот хэндлер будет реагировать на остальные текстовые мессаджи
 @dp.message()
 async def process_other_text_answers(message: Message):
     if users[message.from_user.id]['in_game']:
